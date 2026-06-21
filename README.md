@@ -16,6 +16,34 @@ Open `index.html` in any browser. That's the whole app — one self-contained fi
 no build step, no server, no API keys. Host it anywhere static (GitHub Pages,
 Netlify, S3, or just send the file).
 
+## Deploy to Railway
+
+The repo ships a `Dockerfile` + `Caddyfile` that serve the page with
+[Caddy](https://caddyserver.com/) on Railway's injected `$PORT`. Two ways to ship it:
+
+### Option A — from the Railway dashboard (no CLI)
+
+1. Push this repo to GitHub.
+2. In Railway: **New Project → Deploy from GitHub repo** and pick it.
+3. Railway detects the `Dockerfile` and builds automatically (config is pinned in
+   `railway.json`). No environment variables are required.
+4. Open the service → **Settings → Networking → Generate Domain** to get a public URL.
+
+### Option B — from the Railway CLI
+
+```bash
+npm i -g @railway/cli      # install the CLI
+railway login              # opens the browser to authenticate
+railway init               # create a new project (run from this folder)
+railway up                 # build & deploy the Dockerfile
+railway domain             # generate a public URL
+```
+
+Either way, the running container serves `index.html` on `$PORT` with gzip/zstd
+compression and sensible security headers. To use a custom domain, add it under the
+service's **Settings → Networking → Custom Domain** and point your DNS CNAME at the
+Railway target.
+
 ## How it works
 
 1. **Geocode** — the address is converted to a map coordinate by the public
