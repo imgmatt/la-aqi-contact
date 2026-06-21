@@ -84,22 +84,6 @@
   }
 
   /* ---------- header / hero ---------- */
-  .eyebrow {
-    display: inline-flex; align-items: center; gap: 10px;
-    font-size: 12.5px; letter-spacing: .22em; text-transform: uppercase;
-    font-weight: 700; color: var(--amber-soft);
-    border: 1px solid var(--line); border-radius: 100px;
-    padding: 7px 15px; background: rgba(255,176,32,.05);
-  }
-  .pulse {
-    width: 9px; height: 9px; border-radius: 50%; background: var(--ember);
-    box-shadow: 0 0 0 0 rgba(255,91,46,.7); animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(255,91,46,.6); }
-    70% { box-shadow: 0 0 0 12px rgba(255,91,46,0); }
-    100% { box-shadow: 0 0 0 0 rgba(255,91,46,0); }
-  }
   h1 {
     font-family: "Bricolage Grotesque", sans-serif;
     font-weight: 800;
@@ -244,13 +228,6 @@
   .rep .who a { color: var(--ember-soft); text-decoration: none; }
   .rep .who a:hover { text-decoration: underline; }
 
-  .cc-toggle {
-    display: flex; gap: 11px; align-items: flex-start; cursor: pointer;
-    font-size: 14.5px; color: var(--paper-dim); margin-bottom: 20px;
-    background: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 13px 15px;
-  }
-  .cc-toggle input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--ember); }
-
   .letterhead {
     display: flex; justify-content: space-between; align-items: baseline;
     flex-wrap: wrap; gap: 8px; margin-bottom: 8px;
@@ -315,7 +292,7 @@
 
   <main class="wrap">
     <header>
-      <span class="eyebrow"><span class="pulse" aria-hidden="true"></span> Los Angeles · Air Quality Emergency</span>
+      <h1>Easily contact your <span class="ember-text">LA City Councilmember</span></h1>
       <p class="lede">A warehouse fire at the Lineage Logistics cold-storage facility in Boyle Heights has poured smoke across our neighborhoods for days. Find your LA City Councilmember and send them a letter demanding transparent answers about what we're breathing.</p>
       <div class="factbar" aria-label="Situation facts">
         <a class="fact fact-link" href="https://www.iqair.com/air-quality-map/usa/california/los-angeles" target="_blank" rel="noopener">
@@ -369,11 +346,6 @@
             <p class="meta"><b>Office</b> · <a id="repSite" href="#" target="_blank" rel="noopener">Official council district website ↗</a></p>
           </div>
         </div>
-
-        <label class="cc-toggle">
-          <input type="checkbox" id="ccMayor" checked />
-          <span>Also copy <b>Mayor Karen Bass</b> (<code>mayor.helpdesk@lacity.org</code>) so the pressure reaches City Hall leadership, not just one office.</span>
-        </label>
 
         <div class="letterhead">
           <span class="step-num">Step 2</span>
@@ -449,7 +421,6 @@
           phone: "(213) 473-7014" },
     15: { name: "Tim McOsker",             email: "councilmember.mcosker@lacity.org" }
   };
-  var MAYOR_EMAIL = "mayor.helpdesk@lacity.org";
 
   // --- JSONP helper (avoids all CORS issues for the public map services) ------
   function jsonp(url, timeoutMs) {
@@ -644,9 +615,7 @@
   function clearErr() { $("err").classList.remove("show"); }
 
   function recipients() {
-    var list = [state.email];
-    if ($("ccMayor").checked) list.push(MAYOR_EMAIL);
-    return list.filter(Boolean);
+    return state.email ? [state.email] : [];
   }
 
   $("lookup").addEventListener("submit", function (ev) {
