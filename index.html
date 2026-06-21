@@ -680,14 +680,38 @@
   }
 
   // --- Send / copy actions ----------------------------------------------------
+  // Open the Gmail compose window with everything prefilled. On mobile the web
+  // compose URL gets popup-blocked and won't hand off to the app, so on iOS we
+  // deep-link into the Gmail app (falling back to web compose if it isn't
+  // installed), and on Android/desktop we use the web compose URL directly.
   $("gmailBtn").addEventListener("click", function () {
-    var to = recipients();
-    var url = "https://mail.google.com/mail/?view=cm&fs=1" +
-      "&to=" + encodeURIComponent(to[0] || "") +
-      (to.length > 1 ? "&cc=" + encodeURIComponent(to.slice(1).join(",")) : "") +
-      "&su=" + encodeURIComponent(state.subject) +
-      "&body=" + encodeURIComponent($("letter").value);
-    window.open(url, "_blank", "noopener");
+    var to = encodeURIComponent(recipients()[0] || "");
+    var su = encodeURIComponent(state.subject);
+    var body = encodeURIComponent($("letter").value);
+    var webUrl = "https://mail.google.com/mail/?view=cm&fs=1&to=" + to + "&su=" + su + "&body=" + body;
+
+    var ua = navigator.userAgent || "";
+    var isiOS = /iPhone|iPad|iPod/i.test(ua) ||
+                (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1); // iPadOS reports as Mac
+    var isAndroid = /Android/i.test(ua);
+
+    if (isiOS) {
+      // Gmail app deep link; if the app never opens, fall back to web compose.
+      var appUrl = "googlegmail:///co?to=" + to + "&subject=" + su + "&body=" + body;
+      var fired = false;
+      function onHide() { fired = true; }
+      document.addEventListener("visibilitychange", onHide);
+      setTimeout(function () {
+        document.removeEventListener("visibilitychange", onHide);
+        if (!fired && !document.hidden) window.location.href = webUrl;
+      }, 1200);
+      window.location.href = appUrl;
+    } else if (isAndroid) {
+      // Same-tab navigation avoids mobile popup blocking; Gmail prefills the draft.
+      window.location.href = webUrl;
+    } else {
+      window.open(webUrl, "_blank", "noopener");
+    }
   });
 
   $("mailtoBtn").addEventListener("click", function () {
