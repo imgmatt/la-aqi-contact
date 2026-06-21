@@ -194,6 +194,13 @@
   .err.show { display: block; }
   .err a { color: var(--amber); }
 
+  .sample-banner {
+    margin: 0 0 22px; padding: 12px 16px; font-size: 14px; line-height: 1.5;
+    color: var(--amber-soft); background: rgba(255,176,32,.07);
+    border: 1px solid rgba(255,176,32,.35); border-left: 3px solid var(--amber); border-radius: 8px;
+  }
+  .sample-banner b { color: var(--paper); font-weight: 700; }
+
   /* ---------- result reveal ---------- */
   #result { display: none; }
   #result.show { display: block; animation: rise .55s cubic-bezier(.2,.7,.2,1) both; }
@@ -327,6 +334,9 @@
         <button type="submit" class="btn btn-primary btn-full" id="findBtn">
           Find my councilmember →
         </button>
+        <button type="button" class="btn btn-ghost btn-full" id="sampleBtn" style="margin-top:10px;">
+          Preview a sample letter — no address needed →
+        </button>
       </form>
       <div class="err" id="err"></div>
     </section>
@@ -334,6 +344,9 @@
     <!-- RESULT -->
     <section id="result" aria-live="polite">
       <div class="card">
+        <p class="sample-banner" id="sampleBanner" style="display:none">
+          <b>Sample letter.</b> This example is addressed to Council District 14 (Boyle Heights), where the fire is burning. Enter your address above to load your own councilmember and sign it with your name.
+        </p>
         <div class="rep">
           <div class="badge">
             <span><small>District</small><span class="dnum" id="dnum">14</span></span>
@@ -342,7 +355,7 @@
             <p class="name" id="repName">Councilmember</p>
             <p class="dist" id="repDist">Los Angeles City Council</p>
             <p class="meta"><b>Email</b> · <a id="repEmailLink" href="#"><span id="repEmail"></span></a></p>
-            <p class="meta" id="repPhoneRow" style="display:none"><b>Phone</b> · <span id="repPhone"></span></p>
+            <p class="meta" id="repPhoneRow"><b>Phone</b> · <a id="repPhone" href="#">(213) 473-7014</a></p>
             <p class="meta"><b>Office</b> · <a id="repSite" href="#" target="_blank" rel="noopener">Official council district website ↗</a></p>
           </div>
         </div>
@@ -649,7 +662,7 @@
       .then(function () { btn.disabled = false; btn.textContent = orig; });
   });
 
-  function render(d, geo, userName, userEmail) {
+  function render(d, geo, userName, userEmail, isSample) {
     var info = DISTRICTS[d.district] || {};
     var repName = d.name || info.name || "Your Councilmember";
     state.email = info.email || "";
@@ -661,16 +674,17 @@
     $("repEmail").textContent = state.email || "(see official website)";
     $("repEmailLink").href = "mailto:" + state.email;
 
-    if (info.phone) {
-      $("repPhone").textContent = info.phone;
-      $("repPhoneRow").style.display = "";
-    } else {
-      $("repPhoneRow").style.display = "none";
-    }
+    // Every council office shares the City Hall line (213) 473-70NN.
+    var dd = d.district < 10 ? "0" + d.district : "" + d.district;
+    var phone = info.phone || ("(213) 473-70" + dd);
+    $("repPhone").textContent = phone;
+    $("repPhone").href = "tel:+1213473" + "70" + dd;
 
     var site = "https://cd" + d.district + ".lacity.gov/";
     $("repSite").href = site;
     $("verifyLink").href = site;
+
+    $("sampleBanner").style.display = isSample ? "" : "none";
 
     $("subjText").textContent = state.subject;
     $("letter").value = buildLetter(repName, d.district, userName, geo.matched, userEmail);
@@ -678,6 +692,12 @@
     $("result").classList.add("show");
     $("result").scrollIntoView({ behavior: "smooth", block: "start" });
   }
+
+  // Preview a sample letter without any address lookup (uses CD14 as the example).
+  $("sampleBtn").addEventListener("click", function () {
+    clearErr();
+    render({ district: 14, name: "Ysabel J. Jurado" }, { matched: "" }, "", "", true);
+  });
 
   // --- Send / copy actions ----------------------------------------------------
   // Open the Gmail compose window with everything prefilled. On mobile the web

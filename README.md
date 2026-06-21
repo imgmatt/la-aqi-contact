@@ -75,6 +75,11 @@ sent only to the anonymous public mapping services above to resolve the district
   to the official `cd<N>.lacity.gov` site and prompts users to verify before sending.
 - Boyle Heights is **Council District 14 — Councilmember Ysabel Jurado**
   (`councilmember.jurado@lacity.org`).
+- Each result shows a **click-to-call phone number** alongside the email and office
+  links. Every council office shares the City Hall line **(213) 473-70NN** (e.g. CD1
+  = 7001, CD14 = 7014), so the number is derived from the district number.
+- A **"Preview a sample letter"** button shows the full letter (addressed to CD14 as
+  an example) without requiring any address, so people can see it before sharing.
 
 To update a contact, edit the `DISTRICTS` object near the top of the `<script>` in
 `index.html`.
