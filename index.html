@@ -130,6 +130,16 @@
     padding: 8px 13px; background: rgba(0,0,0,.18);
   }
   .fact b { color: var(--paper); font-weight: 700; }
+  .fact-link {
+    display: inline-flex; align-items: center; gap: 9px;
+    text-decoration: none; color: var(--paper-dim);
+    transition: border-color .15s, color .15s, background .15s;
+  }
+  .fact-link:hover { border-color: var(--ember-soft); color: var(--paper); background: rgba(255,91,46,.08); }
+  .fact-link .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--green);
+    box-shadow: 0 0 8px var(--green); flex: 0 0 auto;
+  }
 
   /* ---------- card ---------- */
   .card {
@@ -300,12 +310,11 @@
   <main class="wrap">
     <header>
       <span class="eyebrow"><span class="pulse" aria-hidden="true"></span> Los Angeles · Air Quality Emergency</span>
-      <h1>The air over Boyle Heights <span class="ember-text">isn't clearing.</span> Make them answer for it.</h1>
       <p class="lede">A warehouse fire at the Lineage Logistics cold-storage facility in Boyle Heights has poured smoke across our neighborhoods for days. Find your LA City Councilmember and send them a letter demanding transparent answers about what we're breathing.</p>
       <div class="factbar" aria-label="Situation facts">
-        <span class="fact"><b>State of emergency</b> declared for LA County</span>
-        <span class="fact">Air alerts <b>Pasadena → Lakewood</b></span>
-        <span class="fact">Shelter-in-place orders <b>issued &amp; reissued</b></span>
+        <a class="fact fact-link" href="https://www.iqair.com/air-quality-map/usa/california/los-angeles" target="_blank" rel="noopener">
+          <span class="dot" aria-hidden="true"></span> Check the <b>live LA air-quality map</b> on IQAir ↗
+        </a>
       </div>
     </header>
 
