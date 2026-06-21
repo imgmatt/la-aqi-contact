@@ -52,7 +52,11 @@ Railway target.
    official **Council District boundaries** (LA GeoHub `Boundaries` MapServer,
    layer 13) via a point-in-polygon spatial query.
 3. **Letter** — the district's councilmember is paired with their public email and a
-   pre-written, editable letter signed with the user's name and address.
+   pre-written, editable letter signed with the user's name and address. The wording
+   is assembled from interchangeable phrasings (varied openers/synonyms, shuffled
+   demand order, rotating subject and sign-off) so no two senders submit a
+   byte-identical message — identical bulk mail is a common spam signal. The facts
+   and the four demands never change, only the phrasing.
 
 Both map calls use **JSONP**, so the tool works as a pure static page with no CORS
 proxy or backend.

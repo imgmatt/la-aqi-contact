@@ -506,14 +506,104 @@
   }
 
   // --- The letter -------------------------------------------------------------
-  function buildSubject() {
-    return "Urgent: Demand for Transparency on Air Quality from the Boyle Heights Warehouse Fire";
+  // Each send is assembled from interchangeable phrasings so no two letters are
+  // byte-identical (identical bulk mail is a strong spam signal). The facts and
+  // the four demands never change — only the wording and ordering.
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
   }
+
+  function buildSubject() {
+    return pick([
+      "Urgent: Demand for Transparency on Air Quality from the Boyle Heights Warehouse Fire",
+      "Please Act: Air Quality and the Boyle Heights Cold-Storage Fire",
+      "Constituent Request: Transparent Air-Quality Information on the Boyle Heights Fire",
+      "We Need Answers on the Air Quality from the Boyle Heights Fire",
+      "Urgent Concern: Smoke and Air Quality from the Boyle Heights Warehouse Fire",
+      "Transparency Needed on the Boyle Heights Fire's Air-Quality Impact",
+      "A Constituent's Urgent Request About the Boyle Heights Fire and Our Air",
+      "Action Needed: Health and Air Quality During the Boyle Heights Fire"
+    ]);
+  }
+
   function buildLetter(repName, district, userName, matchedAddr, userEmail) {
     var greetName = repName ? "Councilmember " + lastName(repName) : "Councilmember";
-    var districtLine = (district === 14)
-      ? "as a resident of Council District 14, the district where this fire is burning,"
-      : "as a resident of Los Angeles whose neighborhood has been blanketed by this smoke,";
+
+    var districtLine = (district === 14) ? pick([
+      "as someone who lives in Council District 14, where this fire is burning,",
+      "as a resident of Council District 14, the very district affected by this fire,",
+      "as your constituent here in Council District 14,"
+    ]) : pick([
+      "as a resident of Los Angeles whose neighborhood has been blanketed by this smoke,",
+      "as an Angeleno living under the smoke from this fire,",
+      "as a Los Angeles resident affected by this smoke,"
+    ]);
+
+    var opener =
+      pick(["I am writing to you", "I am writing", "I am reaching out to you", "I write to you"]) + " " +
+      pick(["with urgency and serious concern", "as a deeply concerned resident", "with real alarm", "out of urgent concern for our community"]) + ", " +
+      districtLine + " " +
+      pick(["regarding", "about", "concerning"]) + " the ongoing warehouse fire at the Lineage Logistics cold-storage facility in Boyle Heights and the " +
+      pick(["dangerous air quality", "hazardous smoke and air pollution", "unhealthy air", "toxic smoke"]) + " it has " +
+      pick(["produced", "spread", "pushed"]) + " across our communities.";
+
+    var situation = pick([
+      "For days, thick smoke from this fire has drifted across Boyle Heights, Downtown, and the surrounding neighborhoods. Shelter-in-place orders have been issued, lifted, and reissued. Regional air-quality alerts now stretch from Pasadena to Lakewood, and a state of emergency has been declared for Los Angeles County. Families across our city are keeping their children inside, sealing their windows, and breathing air they have been given very little reliable information about.",
+      "This fire has now burned for days, sending smoke far beyond Boyle Heights into Downtown and neighboring communities. Shelter-in-place orders have come and gone and returned, a county-wide state of emergency has been declared, and air-quality alerts reach from Pasadena to Lakewood. Residents are sealing their windows and keeping their kids indoors with almost no clear information about what they are actually breathing.",
+      "Smoke from this fire has hung over Boyle Heights, Downtown, and surrounding neighborhoods for days now. With a state of emergency declared for Los Angeles County, shelter-in-place orders repeatedly issued and lifted, and air-quality alerts spanning from Pasadena to Lakewood, families are trapped indoors and left guessing about the health of the air around them."
+    ]) + " " + pick([
+      "That is not acceptable, and it cannot continue without a far more transparent response from the leaders we elected.",
+      "This is unacceptable, and it demands a far more open and honest response from the officials we elected.",
+      "People deserve better than silence, and they deserve a far more transparent response from their elected leaders."
+    ]);
+
+    var askIntro = pick([
+      "I am calling on you, as my representative, to act with the seriousness this emergency demands. Specifically, I am asking that your office:",
+      "As the official who represents me, I urge you to treat this with the seriousness it deserves. Specifically, I am asking that your office:",
+      "I expect you, as my elected representative, to meet this emergency with urgency. I am specifically asking that your office:"
+    ]);
+
+    var demands = shuffle([
+      pick([
+        "Provide transparent, timely, plain-language updates on real-time air-quality conditions in the affected neighborhoods — including which pollutants are being released and what their known health effects are.",
+        "Communicate clearly and promptly about real-time air quality in the affected areas, in plain language, including the specific pollutants in the smoke and the health risks they carry."
+      ]),
+      pick([
+        "Publicly release the air-monitoring data being collected near the fire site, and make clear who is conducting that monitoring, where, and how often.",
+        "Make the air-monitoring data gathered near the fire fully public, along with who is collecting it, at which locations, and how frequently."
+      ]),
+      pick([
+        "Issue clear, accessible health guidance for residents — especially vulnerable people such as children, the elderly, pregnant residents, and those with asthma or other respiratory conditions — and ensure that N95 masks and air purifiers actually reach the people who need them.",
+        "Provide clear, accessible health guidance for the public — particularly children, older adults, pregnant residents, and people with asthma or other respiratory conditions — and make sure N95 masks and air purifiers actually reach those who need them."
+      ]),
+      pick([
+        "Commit to a full public accounting of how this facility was permitted, inspected, and stocked with hazardous and combustible materials, and what concrete steps the City will take so that a disaster like this does not happen again.",
+        "Commit to a complete public accounting of how this facility was permitted, inspected, and allowed to store hazardous, combustible materials — and what concrete steps the City will take to prevent a disaster like this from recurring."
+      ])
+    ]);
+    var demandText = "";
+    for (var i = 0; i < demands.length; i++) {
+      demandText += (i + 1) + ". " + demands[i] + "\n\n";
+    }
+
+    var closing = pick([
+      "The people of this city deserve to know whether the air they are breathing is safe. Vague reassurances are not a substitute for facts, and silence is not leadership. I expect transparent communication and decisive action from your office, and I will be following your response closely.",
+      "Residents deserve to know whether the air around them is safe to breathe. Reassurances without data are not enough, and silence is not an option. I expect openness and decisive action from your office, and I will be paying close attention to how you respond.",
+      "Our neighbors deserve honest answers about whether the air is safe. Facts must replace vague reassurances, and leadership must replace silence. I will be watching closely for transparent communication and real action from your office."
+    ]) + " " + pick([
+      "Thank you for your prompt attention to this urgent matter. I look forward to your reply.",
+      "I appreciate your prompt attention to this urgent matter and look forward to hearing from you.",
+      "Please give this the urgent attention it requires. I look forward to your response."
+    ]);
+
+    var signoff = pick(["Respectfully,", "Sincerely,", "Respectfully yours,", "With urgency and respect,"]);
+
     var sig = [];
     sig.push(userName && userName.trim() ? userName.trim() : "[Your name]");
     if (district) sig.push("Resident, Los Angeles Council District " + district);
@@ -521,18 +611,14 @@
     if (userEmail && userEmail.trim()) sig.push(userEmail.trim());
 
     return (
-"Dear " + greetName + ",\n\n" +
-"I am writing to you with urgency and serious concern, " + districtLine + " about the ongoing warehouse fire at the Lineage Logistics cold-storage facility in Boyle Heights and the dangerous air quality it has produced across our communities.\n\n" +
-"For days, thick smoke from this fire has drifted across Boyle Heights, Downtown, and the surrounding neighborhoods. Shelter-in-place orders have been issued, lifted, and reissued. Regional air-quality alerts now stretch from Pasadena to Lakewood, and a state of emergency has been declared for Los Angeles County. Families in our city are keeping their children inside, sealing their windows, and breathing air they have been given very little reliable information about. That is not acceptable, and it cannot continue without a far more transparent response from the leaders we elected.\n\n" +
-"I am calling on you, as my representative, to act with the seriousness this emergency demands. Specifically, I am asking that your office:\n\n" +
-"1. Provide transparent, timely, plain-language updates on real-time air-quality conditions in the affected neighborhoods — including which pollutants are being released and what their known health effects are.\n\n" +
-"2. Publicly release the air-monitoring data being collected near the fire site, and make clear who is conducting that monitoring, where, and how often.\n\n" +
-"3. Issue clear, accessible health guidance for residents — especially vulnerable people such as children, the elderly, pregnant residents, and those with asthma or other respiratory conditions — and ensure that N95 masks and air purifiers actually reach the people who need them.\n\n" +
-"4. Commit to a full public accounting of how this facility was permitted, inspected, and stocked with hazardous and combustible materials, and what concrete steps the City will take so that a disaster like this does not happen again.\n\n" +
-"The people of this city deserve to know whether the air they are breathing is safe. Vague reassurances are not a substitute for facts, and silence is not leadership. I expect transparent communication and decisive action from your office, and I will be following your response — and your vote — closely.\n\n" +
-"Thank you for your prompt attention to this urgent matter. I look forward to your reply.\n\n" +
-"Respectfully,\n" +
-sig.join("\n")
+      "Dear " + greetName + ",\n\n" +
+      opener + "\n\n" +
+      situation + "\n\n" +
+      askIntro + "\n\n" +
+      demandText +
+      closing + "\n\n" +
+      signoff + "\n" +
+      sig.join("\n")
     );
   }
   function lastName(full) {
