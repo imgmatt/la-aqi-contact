@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Clear the Air — Contact Your LA Councilmember About the Boyle Heights Fire</title>
+<meta name="description" content="Find your Los Angeles City Council representative and send them a letter demanding transparency about air quality during the Boyle Heights warehouse fire." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Public+Sans:ital,wght@0,400..700;1,400..600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #14110f;
+    --ink-2: #1c1815;
+    --surface: #211c18;
+    --surface-2: #2b2520;
+    --line: #463c33;
+    --paper: #f5efe6;
+    --paper-dim: #d9cdbd;
+    --muted: #a99a87;
+    --ember: #ff5b2e;
+    --ember-soft: #ff7a4d;
+    --amber: #ffb020;
+    --amber-soft: #ffce6b;
+    --green: #4caa6a;
+    --maroon: #8a2540;
+    --radius: 14px;
+    --shadow: 0 24px 60px -24px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: "Public Sans", system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  /* ---------- atmosphere ---------- */
+  .smoke {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(60vw 50vh at 12% -8%, rgba(255,91,46,.20), transparent 60%),
+      radial-gradient(55vw 55vh at 92% 8%, rgba(255,176,32,.13), transparent 62%),
+      radial-gradient(70vw 60vh at 50% 115%, rgba(138,37,64,.22), transparent 60%);
+    animation: drift 26s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    0%   { transform: translate3d(0,0,0) scale(1); }
+    100% { transform: translate3d(-2.5%, 1.5%, 0) scale(1.06); }
+  }
+  .grain {
+    position: fixed;
+    inset: -50%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: .05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* AQI band across the very top */
+  .aqi-band {
+    position: fixed; top: 0; left: 0; right: 0; height: 5px; z-index: 30;
+    background: linear-gradient(90deg,
+      var(--green) 0%, #b9c34a 18%, var(--amber) 38%,
+      var(--ember) 58%, #c0392b 76%, var(--maroon) 100%);
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 2;
+    max-width: 940px;
+    margin: 0 auto;
+    padding: clamp(28px, 6vw, 72px) clamp(20px, 5vw, 40px) 80px;
+  }
+
+  /* ---------- header / hero ---------- */
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 12.5px; letter-spacing: .22em; text-transform: uppercase;
+    font-weight: 700; color: var(--amber-soft);
+    border: 1px solid var(--line); border-radius: 100px;
+    padding: 7px 15px; background: rgba(255,176,32,.05);
+  }
+  .pulse {
+    width: 9px; height: 9px; border-radius: 50%; background: var(--ember);
+    box-shadow: 0 0 0 0 rgba(255,91,46,.7); animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,91,46,.6); }
+    70% { box-shadow: 0 0 0 12px rgba(255,91,46,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,91,46,0); }
+  }
+  h1 {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 800;
+    font-size: clamp(40px, 8.5vw, 92px);
+    line-height: .96;
+    letter-spacing: -.02em;
+    margin: 22px 0 0;
+    text-wrap: balance;
+  }
+  h1 .ember-text {
+    background: linear-gradient(100deg, var(--ember), var(--amber));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .lede {
+    font-family: "Newsreader", serif;
+    font-size: clamp(19px, 2.4vw, 24px);
+    line-height: 1.5;
+    color: var(--paper-dim);
+    max-width: 60ch;
+    margin: 26px 0 0;
+  }
+  .factbar {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px;
+  }
+  .fact {
+    font-size: 13px; color: var(--muted);
+    border: 1px solid var(--line); border-radius: 8px;
+    padding: 8px 13px; background: rgba(0,0,0,.18);
+  }
+  .fact b { color: var(--paper); font-weight: 700; }
+
+  /* ---------- card ---------- */
+  .card {
+    background: linear-gradient(180deg, var(--surface), var(--ink-2));
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: clamp(22px, 4vw, 36px);
+    margin-top: 30px;
+  }
+  .step-num {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 700; font-size: 13px; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--ember-soft);
+  }
+  .card h2 {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 700; font-size: clamp(23px, 3.4vw, 30px);
+    margin: 6px 0 4px; letter-spacing: -.01em;
+  }
+  .card p.sub { color: var(--muted); margin: 0 0 22px; font-size: 15px; }
+
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block; font-size: 13px; font-weight: 700; letter-spacing: .04em;
+    text-transform: uppercase; color: var(--paper-dim); margin-bottom: 7px;
+  }
+  .field .hint { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--muted); }
+  input[type=text] {
+    width: 100%; padding: 14px 16px; font-size: 16px; font-family: inherit;
+    color: var(--paper); background: var(--ink);
+    border: 1px solid var(--line); border-radius: 10px; outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input[type=text]::placeholder { color: #6f6256; }
+  input[type=text]:focus {
+    border-color: var(--ember);
+    box-shadow: 0 0 0 3px rgba(255,91,46,.18);
+  }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
+
+  .btn {
+    appearance: none; cursor: pointer; font-family: "Public Sans", sans-serif;
+    font-weight: 700; font-size: 16px; letter-spacing: .01em;
+    border-radius: 10px; padding: 14px 22px; border: 1px solid transparent;
+    transition: transform .12s ease, filter .15s, background .15s, border-color .15s;
+    display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary {
+    background: linear-gradient(100deg, var(--ember), var(--amber));
+    color: #1a0f06;
+  }
+  .btn-primary:hover { filter: brightness(1.07); }
+  .btn-primary[disabled] { opacity: .55; cursor: progress; filter: none; }
+  .btn-ghost {
+    background: var(--surface-2); color: var(--paper); border-color: var(--line);
+  }
+  .btn-ghost:hover { border-color: var(--ember-soft); background: #332a23; }
+  .btn-full { width: 100%; }
+
+  .err {
+    margin-top: 16px; padding: 13px 16px; border-radius: 10px;
+    background: rgba(192,57,43,.14); border: 1px solid rgba(192,57,43,.5);
+    color: var(--amber-soft); font-size: 14.5px; display: none;
+  }
+  .err.show { display: block; }
+  .err a { color: var(--amber); }
+
+  /* ---------- result reveal ---------- */
+  #result { display: none; }
+  #result.show { display: block; animation: rise .55s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+  .rep {
+    display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;
+    border-bottom: 1px solid var(--line); padding-bottom: 24px; margin-bottom: 24px;
+  }
+  .rep .badge {
+    flex: 0 0 auto;
+    width: 92px; height: 92px; border-radius: 14px;
+    display: grid; place-items: center; text-align: center;
+    background: radial-gradient(circle at 30% 25%, #3a302a, var(--ink));
+    border: 1px solid var(--line);
+  }
+  .rep .badge small { display: block; font-size: 10px; letter-spacing: .15em; color: var(--muted); text-transform: uppercase; }
+  .rep .badge .dnum {
+    font-family: "Bricolage Grotesque", sans-serif; font-weight: 800;
+    font-size: 40px; line-height: 1;
+    background: linear-gradient(120deg, var(--ember), var(--amber));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .rep .who { flex: 1 1 240px; }
+  .rep .who .name {
+    font-family: "Bricolage Grotesque", sans-serif; font-weight: 700;
+    font-size: 27px; line-height: 1.1; margin: 0;
+  }
+  .rep .who .dist { color: var(--amber-soft); font-weight: 600; margin: 2px 0 12px; font-size: 15px; }
+  .rep .who .meta { font-size: 14.5px; color: var(--paper-dim); margin: 4px 0; word-break: break-word; }
+  .rep .who .meta b { color: var(--muted); font-weight: 600; }
+  .rep .who a { color: var(--ember-soft); text-decoration: none; }
+  .rep .who a:hover { text-decoration: underline; }
+
+  .cc-toggle {
+    display: flex; gap: 11px; align-items: flex-start; cursor: pointer;
+    font-size: 14.5px; color: var(--paper-dim); margin-bottom: 20px;
+    background: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 13px 15px;
+  }
+  .cc-toggle input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--ember); }
+
+  .letterhead {
+    display: flex; justify-content: space-between; align-items: baseline;
+    flex-wrap: wrap; gap: 8px; margin-bottom: 8px;
+  }
+  .letterhead .step-num { color: var(--amber-soft); }
+  .subjline {
+    font-size: 14px; color: var(--muted); margin: 0 0 14px;
+  }
+  .subjline b { color: var(--paper); font-weight: 600; }
+
+  textarea {
+    width: 100%; min-height: 360px; resize: vertical;
+    font-family: "Newsreader", Georgia, serif; font-size: 16.5px; line-height: 1.65;
+    color: #efe7da; background: #efe7da; color: #2a2118;
+    border: 1px solid var(--line); border-radius: 12px; padding: 24px 26px; outline: none;
+    box-shadow: inset 0 2px 14px rgba(0,0,0,.08);
+  }
+  textarea:focus { border-color: var(--ember); box-shadow: 0 0 0 3px rgba(255,91,46,.18); }
+
+  .actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 18px; }
+  @media (max-width: 560px) { .actions { grid-template-columns: 1fr; } }
+  .actions .btn { width: 100%; }
+  .send-primary { grid-column: 1 / -1; }
+
+  .copied { color: var(--green) !important; }
+
+  .tinynote {
+    font-size: 13px; color: var(--muted); margin-top: 16px; line-height: 1.5;
+  }
+  .tinynote a { color: var(--ember-soft); }
+
+  /* ---------- footer ---------- */
+  footer {
+    position: relative; z-index: 2;
+    max-width: 940px; margin: 40px auto 0; padding: 34px clamp(20px,5vw,40px) 60px;
+    border-top: 1px solid var(--line); color: var(--muted); font-size: 13.5px; line-height: 1.65;
+  }
+  footer h3 {
+    font-family: "Bricolage Grotesque", sans-serif; color: var(--paper-dim);
+    font-size: 15px; letter-spacing: .02em; margin: 0 0 8px; text-transform: uppercase;
+  }
+  footer .cols { display: grid; grid-template-columns: 1.3fr 1fr; gap: 30px; }
+  @media (max-width: 620px) { footer .cols { grid-template-columns: 1fr; } }
+  footer a { color: var(--ember-soft); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  footer ol { margin: 0; padding-left: 18px; }
+  footer .disclaim { margin-top: 24px; font-size: 12.5px; color: #7d7064; }
+
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+  <div class="aqi-band" aria-hidden="true"></div>
+  <div class="smoke" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <header>
+      <span class="eyebrow"><span class="pulse" aria-hidden="true"></span> Los Angeles · Air Quality Emergency</span>
+      <h1>The air over Boyle Heights <span class="ember-text">isn't clearing.</span> Make them answer for it.</h1>
+      <p class="lede">A warehouse fire at the Lineage Logistics cold-storage facility in Boyle Heights has poured smoke across our neighborhoods for days. Find your LA City Councilmember and send them a letter demanding transparent answers about what we're breathing.</p>
+      <div class="factbar" aria-label="Situation facts">
+        <span class="fact"><b>State of emergency</b> declared for LA County</span>
+        <span class="fact">Air alerts <b>Pasadena → Lakewood</b></span>
+        <span class="fact">Shelter-in-place orders <b>issued &amp; reissued</b></span>
+      </div>
+    </header>
+
+    <!-- STEP 1 -->
+    <section class="card" aria-labelledby="s1">
+      <span class="step-num">Step 1</span>
+      <h2 id="s1">Find your representative</h2>
+      <p class="sub">Enter your home address. We look up your LA City Council district and the councilmember who answers to you. Your address never leaves your browser except to anonymous public mapping services.</p>
+
+      <form id="lookup" novalidate>
+        <div class="field">
+          <label for="addr">Your street address <span class="hint">— in the City of Los Angeles</span></label>
+          <input type="text" id="addr" name="addr" autocomplete="street-address"
+                 placeholder="e.g. 1234 S Soto St, Los Angeles, CA 90023" />
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="uname">Your name <span class="hint">— signs the letter</span></label>
+            <input type="text" id="uname" name="uname" autocomplete="name" placeholder="Jane Q. Resident" />
+          </div>
+          <div class="field">
+            <label for="uemail">Your email <span class="hint">— optional, for replies</span></label>
+            <input type="text" id="uemail" name="uemail" autocomplete="email" placeholder="you@email.com" />
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full" id="findBtn">
+          Find my councilmember →
+        </button>
+      </form>
+      <div class="err" id="err"></div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="result" aria-live="polite">
+      <div class="card">
+        <div class="rep">
+          <div class="badge">
+            <span><small>District</small><span class="dnum" id="dnum">14</span></span>
+          </div>
+          <div class="who">
+            <p class="name" id="repName">Councilmember</p>
+            <p class="dist" id="repDist">Los Angeles City Council</p>
+            <p class="meta"><b>Email</b> · <a id="repEmailLink" href="#"><span id="repEmail"></span></a></p>
+            <p class="meta" id="repPhoneRow" style="display:none"><b>Phone</b> · <span id="repPhone"></span></p>
+            <p class="meta"><b>Office</b> · <a id="repSite" href="#" target="_blank" rel="noopener">Official council district website ↗</a></p>
+          </div>
+        </div>
+
+        <label class="cc-toggle">
+          <input type="checkbox" id="ccMayor" checked />
+          <span>Also copy <b>Mayor Karen Bass</b> (<code>mayor.helpdesk@lacity.org</code>) so the pressure reaches City Hall leadership, not just one office.</span>
+        </label>
+
+        <div class="letterhead">
+          <span class="step-num">Step 2</span>
+        </div>
+        <h2 style="font-family:'Bricolage Grotesque';font-weight:700;font-size:27px;margin:2px 0 4px;">Your letter is ready</h2>
+        <p class="subjline"><b>Subject:</b> <span id="subjText"></span></p>
+        <p class="sub" style="margin-bottom:14px;">Edit anything you like — make it your own. A few personal sentences about how the smoke has affected <em>you</em> will land harder than a form letter.</p>
+
+        <label class="visually-hidden" for="letter">Letter body</label>
+        <textarea id="letter" spellcheck="true"></textarea>
+
+        <div class="actions">
+          <button class="btn btn-primary send-primary" id="gmailBtn">✉️ Open in Gmail (ready to send)</button>
+          <button class="btn btn-ghost" id="copyBtn">Copy letter</button>
+          <button class="btn btn-ghost" id="mailtoBtn">Open in default mail app</button>
+        </div>
+        <p class="tinynote" id="copyAddrNote">
+          Prefer to paste it yourself? <a href="#" id="copyEmailAddr">Copy the councilmember's email address</a>,
+          then paste the letter into any email client. Always good to double-check the address on the
+          <a id="verifyLink" href="#" target="_blank" rel="noopener">official council website</a> before sending.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="cols">
+      <div>
+        <h3>How this works</h3>
+        <ol>
+          <li>Your address is geocoded by the U.S. Census / Esri public geocoder to a map point.</li>
+          <li>That point is matched against the City of Los Angeles official Council District boundaries (LA GeoHub).</li>
+          <li>We pair your district with its councilmember's public contact info and a pre-written letter you can edit and send.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>Sources &amp; data</h3>
+        <p>Boundaries &amp; councilmembers: <a href="https://geohub.lacity.org/" target="_blank" rel="noopener">LA GeoHub</a>.
+        Contacts: <a href="https://lacity.gov/government/elected-officials" target="_blank" rel="noopener">lacity.gov</a>.
+        Fire &amp; air-quality reporting via ABC7, LAist, KTLA, NBC LA.</p>
+      </div>
+    </div>
+    <p class="disclaim">
+      This is an independent, nonpartisan civic tool with no affiliation to the City of Los Angeles. Contact details are public information and are kept as accurate as possible — please verify the email on the official council website before sending. Nothing you type is stored or transmitted to us; it stays in your browser. For active emergencies or health concerns, follow official guidance and call 911.
+    </p>
+  </footer>
+
+<script>
+(function () {
+  "use strict";
+
+  // --- Verified council contact table (keyed by district number) -------------
+  // Names are confirmed dynamically from the live LA GeoHub service; this table
+  // supplies the public email + office details for each seat.
+  var DISTRICTS = {
+    1:  { name: "Eunisses Hernandez",      email: "councilmember.hernandez@lacity.org" },
+    2:  { name: "Adrin Nazarian",          email: "councilmember.nazarian@lacity.org" },
+    3:  { name: "Bob Blumenfield",         email: "councilmember.blumenfield@lacity.org" },
+    4:  { name: "Nithya Raman",            email: "councilmember.raman@lacity.org" },
+    5:  { name: "Katy Yaroslavsky",        email: "councilmember.yaroslavsky@lacity.org" },
+    6:  { name: "Imelda Padilla",          email: "councilmember.padilla@lacity.org" },
+    7:  { name: "Monica Rodriguez",        email: "councilmember.monicarodriguez@lacity.org" },
+    8:  { name: "Marqueece Harris-Dawson", email: "councilmember.harris-dawson@lacity.org" },
+    9:  { name: "Curren D. Price, Jr.",    email: "councilmember.price@lacity.org" },
+    10: { name: "Heather Hutt",            email: "councilmember.hutt@lacity.org" },
+    11: { name: "Traci Park",              email: "councilmember.park@lacity.org" },
+    12: { name: "John Lee",                email: "councilmember.john.lee@lacity.org" },
+    13: { name: "Hugo Soto-Martinez",      email: "councilmember.soto-martinez@lacity.org" },
+    14: { name: "Ysabel Jurado",           email: "councilmember.jurado@lacity.org",
+          phone: "(213) 473-7014" },
+    15: { name: "Tim McOsker",             email: "councilmember.mcosker@lacity.org" }
+  };
+  var MAYOR_EMAIL = "mayor.helpdesk@lacity.org";
+
+  // --- JSONP helper (avoids all CORS issues for the public map services) ------
+  function jsonp(url, timeoutMs) {
+    return new Promise(function (resolve, reject) {
+      var cb = "__cb" + Date.now() + Math.floor(Math.random() * 1e6);
+      var sep = url.indexOf("?") === -1 ? "?" : "&";
+      var script = document.createElement("script");
+      var done = false;
+      var timer = setTimeout(function () { finish(new Error("timeout")); }, timeoutMs || 12000);
+      function finish(err, data) {
+        if (done) return; done = true;
+        clearTimeout(timer);
+        try { delete window[cb]; } catch (e) { window[cb] = undefined; }
+        if (script.parentNode) script.parentNode.removeChild(script);
+        if (err) reject(err); else resolve(data);
+      }
+      window[cb] = function (data) { finish(null, data); };
+      script.onerror = function () { finish(new Error("network")); };
+      script.src = url + sep + "callback=" + cb;
+      document.body.appendChild(script);
+    });
+  }
+
+  // --- Geocode an address -> {lon, lat, matched} ------------------------------
+  function geocode(address) {
+    var url = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates" +
+      "?f=json&maxLocations=1&outFields=Match_addr,City,Region" +
+      "&countryCode=USA&singleLine=" + encodeURIComponent(address);
+    return jsonp(url).then(function (data) {
+      var c = data && data.candidates && data.candidates[0];
+      if (!c || !c.location) throw new Error("no-geocode");
+      return {
+        lon: c.location.x,
+        lat: c.location.y,
+        matched: (c.attributes && c.attributes.Match_addr) || c.address || address,
+        city: (c.attributes && c.attributes.City) || ""
+      };
+    });
+  }
+
+  // --- Point -> LA Council District (layer 13 on the LA GeoHub Boundaries) -----
+  function districtFor(lon, lat) {
+    var url = "https://maps.lacity.org/lahub/rest/services/Boundaries/MapServer/13/query" +
+      "?geometry=" + lon + "," + lat +
+      "&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects" +
+      "&outFields=District,NAME,NLA_URL&returnGeometry=false&f=json";
+    return jsonp(url).then(function (data) {
+      var f = data && data.features && data.features[0];
+      if (!f || !f.attributes || f.attributes.District == null) return null;
+      return {
+        district: parseInt(f.attributes.District, 10),
+        name: f.attributes.NAME
+      };
+    });
+  }
+
+  // --- The letter -------------------------------------------------------------
+  function buildSubject() {
+    return "Urgent: Demand for Transparency on Air Quality from the Boyle Heights Warehouse Fire";
+  }
+  function buildLetter(repName, district, userName, matchedAddr, userEmail) {
+    var greetName = repName ? "Councilmember " + lastName(repName) : "Councilmember";
+    var districtLine = (district === 14)
+      ? "as a resident of Council District 14, the district where this fire is burning,"
+      : "as a resident of Los Angeles whose neighborhood has been blanketed by this smoke,";
+    var sig = [];
+    sig.push(userName && userName.trim() ? userName.trim() : "[Your name]");
+    if (district) sig.push("Resident, Los Angeles Council District " + district);
+    if (matchedAddr) sig.push(matchedAddr);
+    if (userEmail && userEmail.trim()) sig.push(userEmail.trim());
+
+    return (
+"Dear " + greetName + ",\n\n" +
+"I am writing to you with urgency and serious concern, " + districtLine + " about the ongoing warehouse fire at the Lineage Logistics cold-storage facility in Boyle Heights and the dangerous air quality it has produced across our communities.\n\n" +
+"For days, thick smoke from this fire has drifted across Boyle Heights, Downtown, and the surrounding neighborhoods. Shelter-in-place orders have been issued, lifted, and reissued. Regional air-quality alerts now stretch from Pasadena to Lakewood, and a state of emergency has been declared for Los Angeles County. Families in our city are keeping their children inside, sealing their windows, and breathing air they have been given very little reliable information about. That is not acceptable, and it cannot continue without a far more transparent response from the leaders we elected.\n\n" +
+"I am calling on you, as my representative, to act with the seriousness this emergency demands. Specifically, I am asking that your office:\n\n" +
+"1. Provide transparent, timely, plain-language updates on real-time air-quality conditions in the affected neighborhoods — including which pollutants are being released and what their known health effects are.\n\n" +
+"2. Publicly release the air-monitoring data being collected near the fire site, and make clear who is conducting that monitoring, where, and how often.\n\n" +
+"3. Issue clear, accessible health guidance for residents — especially vulnerable people such as children, the elderly, pregnant residents, and those with asthma or other respiratory conditions — and ensure that N95 masks and air purifiers actually reach the people who need them.\n\n" +
+"4. Commit to a full public accounting of how this facility was permitted, inspected, and stocked with hazardous and combustible materials, and what concrete steps the City will take so that a disaster like this does not happen again.\n\n" +
+"The people of this city deserve to know whether the air they are breathing is safe. Vague reassurances are not a substitute for facts, and silence is not leadership. I expect transparent communication and decisive action from your office, and I will be following your response — and your vote — closely.\n\n" +
+"Thank you for your prompt attention to this urgent matter. I look forward to your reply.\n\n" +
+"Respectfully,\n" +
+sig.join("\n")
+    );
+  }
+  function lastName(full) {
+    // "Ysabel Jurado" -> "Jurado"; "Curren D. Price, Jr." -> "Price"; keeps hyphens.
+    var clean = full.replace(/,?\s*(Jr\.?|Sr\.?|II|III)$/i, "").trim();
+    var parts = clean.split(/\s+/);
+    return parts[parts.length - 1];
+  }
+
+  // --- Wiring -----------------------------------------------------------------
+  var $ = function (id) { return document.getElementById(id); };
+  var state = { email: "", subject: "" };
+
+  function showErr(html) {
+    var e = $("err"); e.innerHTML = html; e.classList.add("show");
+  }
+  function clearErr() { $("err").classList.remove("show"); }
+
+  function recipients() {
+    var list = [state.email];
+    if ($("ccMayor").checked) list.push(MAYOR_EMAIL);
+    return list.filter(Boolean);
+  }
+
+  $("lookup").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    clearErr();
+    var address = $("addr").value.trim();
+    var userName = $("uname").value.trim();
+    var userEmail = $("uemail").value.trim();
+    if (!address) { showErr("Please enter your street address so we can find your district."); return; }
+
+    var btn = $("findBtn");
+    var orig = btn.textContent;
+    btn.disabled = true; btn.textContent = "Looking up your district…";
+
+    var q = /los angeles|, ?la|, ?ca\b|\d{5}/i.test(address) ? address : address + ", Los Angeles, CA";
+
+    geocode(q)
+      .then(function (geo) {
+        return districtFor(geo.lon, geo.lat).then(function (d) { return { geo: geo, d: d }; });
+      })
+      .then(function (res) {
+        if (!res.d) {
+          showErr("That address doesn't appear to fall inside a <b>City of Los Angeles</b> council district. This tool covers the 15 LA <em>City</em> Council districts (not LA County unincorporated areas or other cities). Double-check the address, or look it up on the <a href='https://neighborhoodinfo.lacity.org/' target='_blank' rel='noopener'>City's official map</a>.");
+          return;
+        }
+        render(res.d, res.geo, userName, userEmail);
+      })
+      .catch(function (e) {
+        showErr("We couldn't reach the public mapping service just now (" + (e && e.message ? e.message : "error") + "). Please check your connection and try again. You can also find your district directly at <a href='https://neighborhoodinfo.lacity.org/' target='_blank' rel='noopener'>neighborhoodinfo.lacity.org</a>.");
+      })
+      .then(function () { btn.disabled = false; btn.textContent = orig; });
+  });
+
+  function render(d, geo, userName, userEmail) {
+    var info = DISTRICTS[d.district] || {};
+    var repName = d.name || info.name || "Your Councilmember";
+    state.email = info.email || "";
+    state.subject = buildSubject();
+
+    $("dnum").textContent = d.district;
+    $("repName").textContent = repName;
+    $("repDist").textContent = "Los Angeles City Council, District " + d.district;
+    $("repEmail").textContent = state.email || "(see official website)";
+    $("repEmailLink").href = "mailto:" + state.email;
+
+    if (info.phone) {
+      $("repPhone").textContent = info.phone;
+      $("repPhoneRow").style.display = "";
+    } else {
+      $("repPhoneRow").style.display = "none";
+    }
+
+    var site = "https://cd" + d.district + ".lacity.gov/";
+    $("repSite").href = site;
+    $("verifyLink").href = site;
+
+    $("subjText").textContent = state.subject;
+    $("letter").value = buildLetter(repName, d.district, userName, geo.matched, userEmail);
+
+    $("result").classList.add("show");
+    $("result").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // --- Send / copy actions ----------------------------------------------------
+  $("gmailBtn").addEventListener("click", function () {
+    var to = recipients();
+    var url = "https://mail.google.com/mail/?view=cm&fs=1" +
+      "&to=" + encodeURIComponent(to[0] || "") +
+      (to.length > 1 ? "&cc=" + encodeURIComponent(to.slice(1).join(",")) : "") +
+      "&su=" + encodeURIComponent(state.subject) +
+      "&body=" + encodeURIComponent($("letter").value);
+    window.open(url, "_blank", "noopener");
+  });
+
+  $("mailtoBtn").addEventListener("click", function () {
+    var to = recipients();
+    var url = "mailto:" + encodeURIComponent(to[0] || "") +
+      "?subject=" + encodeURIComponent(state.subject) +
+      (to.length > 1 ? "&cc=" + encodeURIComponent(to.slice(1).join(",")) : "") +
+      "&body=" + encodeURIComponent($("letter").value);
+    window.location.href = url;
+  });
+
+  function flash(btn, text) {
+    var orig = btn.textContent;
+    btn.textContent = text; btn.classList.add("copied");
+    setTimeout(function () { btn.textContent = orig; btn.classList.remove("copied"); }, 1900);
+  }
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      try { document.execCommand("copy"); resolve(); } catch (e) { reject(e); }
+      document.body.removeChild(ta);
+    });
+  }
+
+  $("copyBtn").addEventListener("click", function () {
+    var self = this;
+    var full = "Subject: " + state.subject + "\n\n" + $("letter").value;
+    copyText(full).then(function () { flash(self, "✓ Letter copied"); })
+      .catch(function () { flash(self, "Press Ctrl+C to copy"); });
+  });
+
+  $("copyEmailAddr").addEventListener("click", function (ev) {
+    ev.preventDefault();
+    var self = this;
+    copyText(recipients().join(", ")).then(function () {
+      var orig = self.textContent; self.textContent = "✓ Email address copied";
+      setTimeout(function () { self.textContent = orig; }, 1900);
+    });
+  });
+})();
+</script>
+</body>
+</html>
