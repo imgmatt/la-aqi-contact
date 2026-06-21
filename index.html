@@ -707,8 +707,15 @@
       }, 1200);
       window.location.href = appUrl;
     } else if (isAndroid) {
-      // Same-tab navigation avoids mobile popup blocking; Gmail prefills the draft.
-      window.location.href = webUrl;
+      // Launch the Gmail APP via an Android intent with a mailto payload (the
+      // web-compose URL only opens stripped mobile-web Gmail). If Gmail isn't
+      // installed, browser_fallback_url opens web compose instead.
+      var rawTo = recipients()[0] || "";
+      var mailto = "mailto:" + rawTo + "?subject=" + su + "&body=" + body;
+      var intentUrl = "intent:" + mailto +
+        "#Intent;action=android.intent.action.SENDTO;package=com.google.android.gm;" +
+        "S.browser_fallback_url=" + encodeURIComponent(webUrl) + ";end";
+      window.location.href = intentUrl;
     } else {
       window.open(webUrl, "_blank", "noopener");
     }
