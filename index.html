@@ -355,8 +355,9 @@
             <p class="name" id="repName">Councilmember</p>
             <p class="dist" id="repDist">Los Angeles City Council</p>
             <p class="meta"><b>Email</b> · <a id="repEmailLink" href="#"><span id="repEmail"></span></a></p>
-            <p class="meta" id="repPhoneRow"><b>Phone</b> · <a id="repPhone" href="#">(213) 473-7014</a></p>
-            <p class="meta"><b>Office</b> · <a id="repSite" href="#" target="_blank" rel="noopener">Official council district website ↗</a></p>
+            <p class="meta" id="repOfficeRow" style="display:none"><b>District office</b> · <a id="repOffice" href="#"></a></p>
+            <p class="meta" id="repPhoneRow"><b id="repPhoneLabel">Phone</b> · <a id="repPhone" href="#"></a></p>
+            <p class="meta"><b>Website</b> · <a id="repSite" href="#" target="_blank" rel="noopener">Official council district site ↗</a></p>
           </div>
         </div>
 
@@ -415,23 +416,24 @@
 
   // --- Verified council contact table (keyed by district number) -------------
   // Names are confirmed dynamically from the live LA GeoHub service; this table
-  // supplies the public email + office details for each seat.
+  // supplies the public email + (where verified from the official cdN.lacity.gov
+  // site) the district/field office phone. Every office also shares the City Hall
+  // line (213) 473-70NN, which is derived per district at render time as a fallback.
   var DISTRICTS = {
-    1:  { name: "Eunisses Hernandez",      email: "councilmember.hernandez@lacity.org" },
-    2:  { name: "Adrin Nazarian",          email: "councilmember.nazarian@lacity.org" },
-    3:  { name: "Bob Blumenfield",         email: "councilmember.blumenfield@lacity.org" },
+    1:  { name: "Eunisses Hernandez",      email: "councilmember.hernandez@lacity.org", office: "(213) 314-6290" },
+    2:  { name: "Adrin Nazarian",          email: "councilmember.nazarian@lacity.org",  office: "(818) 755-7676" },
+    3:  { name: "Bob Blumenfield",         email: "councilmember.blumenfield@lacity.org", office: "(818) 774-4330" },
     4:  { name: "Nithya Raman",            email: "councilmember.raman@lacity.org" },
     5:  { name: "Katy Yaroslavsky",        email: "councilmember.yaroslavsky@lacity.org" },
     6:  { name: "Imelda Padilla",          email: "councilmember.padilla@lacity.org" },
     7:  { name: "Monica Rodriguez",        email: "councilmember.monicarodriguez@lacity.org" },
     8:  { name: "Marqueece Harris-Dawson", email: "councilmember.harris-dawson@lacity.org" },
-    9:  { name: "Curren D. Price, Jr.",    email: "councilmember.price@lacity.org" },
+    9:  { name: "Curren D. Price, Jr.",    email: "councilmember.price@lacity.org",      office: "(323) 846-2651" },
     10: { name: "Heather Hutt",            email: "councilmember.hutt@lacity.org" },
     11: { name: "Traci Park",              email: "councilmember.park@lacity.org" },
     12: { name: "John Lee",                email: "councilmember.john.lee@lacity.org" },
-    13: { name: "Hugo Soto-Martinez",      email: "councilmember.soto-martinez@lacity.org" },
-    14: { name: "Ysabel Jurado",           email: "councilmember.jurado@lacity.org",
-          phone: "(213) 473-7014" },
+    13: { name: "Hugo Soto-Martinez",      email: "councilmember.soto-martinez@lacity.org", office: "(213) 207-3015" },
+    14: { name: "Ysabel Jurado",           email: "councilmember.jurado@lacity.org",      office: "(323) 254-5295" },
     15: { name: "Tim McOsker",             email: "councilmember.mcosker@lacity.org" }
   };
 
@@ -674,11 +676,21 @@
     $("repEmail").textContent = state.email || "(see official website)";
     $("repEmailLink").href = "mailto:" + state.email;
 
-    // Every council office shares the City Hall line (213) 473-70NN.
+    // City Hall line (213) 473-70NN is shared by every office; show the verified
+    // district/field office line above it when we have one.
     var dd = d.district < 10 ? "0" + d.district : "" + d.district;
-    var phone = info.phone || ("(213) 473-70" + dd);
-    $("repPhone").textContent = phone;
+    var cityHall = "(213) 473-70" + dd;
+    $("repPhone").textContent = cityHall;
     $("repPhone").href = "tel:+1213473" + "70" + dd;
+    if (info.office) {
+      $("repOffice").textContent = info.office;
+      $("repOffice").href = "tel:+1" + info.office.replace(/\D/g, "");
+      $("repOfficeRow").style.display = "";
+      $("repPhoneLabel").textContent = "City Hall";
+    } else {
+      $("repOfficeRow").style.display = "none";
+      $("repPhoneLabel").textContent = "Phone";
+    }
 
     var site = "https://cd" + d.district + ".lacity.gov/";
     $("repSite").href = site;
