@@ -240,6 +240,22 @@
     flex-wrap: wrap; gap: 8px; margin-bottom: 8px;
   }
   .letterhead .step-num { color: var(--amber-soft); }
+  .letter-titlerow {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 14px; flex-wrap: wrap; margin-bottom: 2px;
+  }
+  .btn-refresh {
+    appearance: none; cursor: pointer; font-family: "Public Sans", sans-serif;
+    font-weight: 600; font-size: 13px; letter-spacing: .01em;
+    color: var(--ember-soft); background: rgba(255,91,46,.08);
+    border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px;
+    display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+    transition: background .15s, border-color .15s, color .15s, transform .08s;
+  }
+  .btn-refresh:hover { border-color: var(--ember-soft); background: rgba(255,91,46,.15); color: var(--amber-soft); }
+  .btn-refresh:active { transform: translateY(1px); }
+  .btn-refresh .ic { font-size: 15px; line-height: 1; transition: transform .4s ease; }
+  .btn-refresh:hover .ic { transform: rotate(180deg); }
   .subjline {
     font-size: 14px; color: var(--muted); margin: 0 0 14px;
   }
@@ -364,7 +380,12 @@
         <div class="letterhead">
           <span class="step-num">Step 2</span>
         </div>
-        <h2 style="font-family:'Bricolage Grotesque';font-weight:700;font-size:27px;margin:2px 0 4px;">Your letter is ready</h2>
+        <div class="letter-titlerow">
+          <h2 style="font-family:'Bricolage Grotesque';font-weight:700;font-size:27px;margin:2px 0 4px;">Your letter is ready</h2>
+          <button type="button" class="btn-refresh" id="refreshBtn" title="Generate a different version of this letter using the same details">
+            <span class="ic" aria-hidden="true">↻</span> New version
+          </button>
+        </div>
         <p class="subjline"><b>Subject:</b> <span id="subjText"></span></p>
         <p class="sub" style="margin-bottom:14px;">Edit anything you like — make it your own. A few personal sentences about how the smoke has affected <em>you</em> will land harder than a form letter.</p>
 
@@ -765,12 +786,30 @@
 
     $("sampleBanner").style.display = isSample ? "" : "none";
 
-    $("subjText").textContent = state.subject;
-    $("letter").value = buildLetter(repName, d.district, userName, geo.matched, userEmail);
+    // Remember the inputs so the "New version" button can regenerate the letter.
+    state.ctx = { repName: repName, district: d.district, userName: userName, matched: geo.matched, userEmail: userEmail };
+    compose();
 
     $("result").classList.add("show");
     $("result").scrollIntoView({ behavior: "smooth", block: "start" });
   }
+
+  // Generate a fresh subject + letter from the stored inputs (a new random variation).
+  function compose() {
+    var c = state.ctx;
+    if (!c) return;
+    state.subject = buildSubject();
+    $("subjText").textContent = state.subject;
+    $("letter").value = buildLetter(c.repName, c.district, c.userName, c.matched, c.userEmail);
+  }
+
+  $("refreshBtn").addEventListener("click", function () {
+    if (!state.ctx) return;
+    compose();
+    var self = this;
+    self.lastChild.textContent = " New version generated";
+    setTimeout(function () { self.lastChild.textContent = " New version"; }, 1500);
+  });
 
   // Preview a sample letter without any address lookup (uses CD14 as the example).
   $("sampleBtn").addEventListener("click", function () {
