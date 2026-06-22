@@ -508,22 +508,26 @@
 
   function buildSubject() {
     return pick([
-      "Urgent: Demand for Transparency on Air Quality from the Boyle Heights Warehouse Fire",
-      "Please Act: Air Quality and the Boyle Heights Cold-Storage Fire",
-      "Constituent Request: Transparent Air-Quality Information on the Boyle Heights Fire",
-      "We Need Answers on the Air Quality from the Boyle Heights Fire",
-      "Urgent Concern: Smoke and Air Quality from the Boyle Heights Warehouse Fire",
-      "Transparency Needed on the Boyle Heights Fire's Air-Quality Impact",
-      "A Constituent's Urgent Request About the Boyle Heights Fire and Our Air",
-      "Action Needed: Health and Air Quality During the Boyle Heights Fire",
-      "Demanding Accountability for the Air We Are Breathing — Boyle Heights Fire",
-      "Our Air Is Not Safe: Please Respond to the Boyle Heights Fire",
-      "Constituent Concern: Smoke, Health, and the Boyle Heights Warehouse Fire",
-      "The Boyle Heights Fire Is a Public Health Emergency — We Need Transparency",
-      "Please Address the Air-Quality Crisis from the Boyle Heights Fire",
-      "Urgent: Protect Our Health During the Boyle Heights Warehouse Fire",
-      "Where Is the Air-Quality Data? — Boyle Heights Warehouse Fire",
-      "A Request for Accountability and Clean-Air Answers After the Boyle Heights Fire"
+      // short / blunt
+      "Our air is not safe. Please respond.",
+      "We need answers about the Boyle Heights fire.",
+      "Where is the air-quality data for the Boyle Heights fire?",
+      "The air in our neighborhood is not safe to breathe.",
+      // medium
+      "Please act on the air quality from the Boyle Heights fire",
+      "Urgent: transparency on air quality from the Boyle Heights fire",
+      "We need answers on the air quality from the Boyle Heights fire",
+      "Constituent request: air-quality information on the Boyle Heights fire",
+      "Smoke and air quality from the Boyle Heights warehouse fire",
+      "Transparency needed on the Boyle Heights fire's air-quality impact",
+      "Action needed on health and air quality during the Boyle Heights fire",
+      "Please address the air-quality crisis from the Boyle Heights fire",
+      "Protect our health during the Boyle Heights warehouse fire",
+      // longer / formal
+      "A constituent's urgent request about the Boyle Heights fire and our air",
+      "Demanding accountability for the air we are breathing in Boyle Heights",
+      "The Boyle Heights fire is a public health emergency, and we need transparency",
+      "A request for accountability and clear answers about our air after the Boyle Heights fire"
     ]);
   }
 
@@ -553,40 +557,50 @@
       pick(["produced", "spread", "pushed", "sent"]) + " " +
       pick(["across our communities", "across our neighborhoods", "throughout our communities", "over our neighborhoods"]) + ".";
 
+    // Some letters run short and blunt, others longer and more formal.
+    var brief = Math.random() < 0.34;
+
     var sit = [
       pick([
+        // longer paragraphs
         "For days, thick smoke from this fire has drifted across Boyle Heights, Downtown, and the surrounding neighborhoods. Shelter-in-place orders have been issued, lifted, and reissued. Regional air-quality alerts now stretch from Pasadena to Lakewood, and a state of emergency has been declared for Los Angeles County. Families across our city are keeping their children inside, sealing their windows, and breathing air they have been given very little reliable information about.",
         "This fire has now burned for days, sending smoke far beyond Boyle Heights into Downtown and neighboring communities. Shelter-in-place orders have come and gone and returned, a county-wide state of emergency has been declared, and air-quality alerts reach from Pasadena to Lakewood. Residents are sealing their windows and keeping their kids indoors with almost no clear information about what they are actually breathing.",
         "Smoke from this fire has hung over Boyle Heights, Downtown, and surrounding neighborhoods for days now. With a state of emergency declared for Los Angeles County, shelter-in-place orders repeatedly issued and lifted, and air-quality alerts spanning from Pasadena to Lakewood, families are trapped indoors and left guessing about the health of the air around them.",
         "For the better part of a week, smoke from this fire has poured across Boyle Heights, Downtown, and the neighborhoods around them. A state of emergency has been declared for Los Angeles County, shelter-in-place orders keep being issued and lifted, and air-quality alerts now stretch from Pasadena to Lakewood. People are shutting their windows, keeping their children home, and getting almost no straight answers about what is in the air.",
-        "Day after day, this fire keeps burning and its smoke keeps spreading — over Boyle Heights, Downtown, and far into the surrounding communities. Los Angeles County is under a state of emergency, shelter-in-place orders have come and gone repeatedly, and air-quality alerts blanket the region from Pasadena to Lakewood. Families are left to seal their homes and guess at whether the air outside is dangerous."
+        "Day after day, this fire keeps burning and its smoke keeps spreading over Boyle Heights, Downtown, and far into the surrounding communities. Los Angeles County is under a state of emergency, shelter-in-place orders have come and gone repeatedly, and air-quality alerts blanket the region from Pasadena to Lakewood. Families are left to seal their homes and guess at whether the air outside is dangerous.",
+        // shorter, single-sentence options
+        "This fire has burned for days, and its smoke has spread across Boyle Heights, Downtown, and the neighborhoods around them while a state of emergency stays in place for Los Angeles County.",
+        "For days now, smoke from this fire has blanketed Boyle Heights and the communities around it, and air-quality alerts have stretched across the region while families stay shut inside."
       ]),
       pick([
-        "Across East and Central Los Angeles, residents are reporting shortness of breath, headaches, burning skin, and persistent fatigue — symptoms that should not be dismissed.",
+        "Across East and Central Los Angeles, residents are reporting shortness of breath, headaches, burning skin, and persistent fatigue, and these symptoms should not be dismissed.",
         "In communities all across East and Central LA, neighbors are experiencing shortness of breath, pounding headaches, burning skin, and exhaustion since this smoke set in.",
         "People throughout East and Central Los Angeles have described shortness of breath, headaches, burning skin, and fatigue, and they deserve to know what is causing it.",
-        "Throughout East and Central LA, residents are describing the same warning signs — shortness of breath, headaches, burning skin, and fatigue — and these accounts cannot be ignored.",
-        "Across East and Central LA, people are reporting the same things — trouble breathing, headaches, burning skin and eyes, and a fatigue that will not lift.",
+        "Throughout East and Central LA, residents are describing the same warning signs: shortness of breath, headaches, burning skin, and fatigue, and these accounts cannot be ignored.",
+        "Across East and Central LA, people are reporting the same things: trouble breathing, headaches, burning skin and eyes, and a fatigue that will not lift.",
         "Residents from Boyle Heights through East and Central Los Angeles say they are coughing, getting headaches, and feeling their skin and eyes burn, and that cannot be brushed aside."
       ])
     ];
 
-    // Optional environmental-justice / personal-stakes sentence (sometimes omitted).
-    var extra = pick([
-      "", "",
-      "Many of us cannot simply pack up and leave, and we should not have to wonder whether it is safe to open a window.",
-      "Neighborhoods like ours, which already carry more than our share of industrial pollution, are once again paying the price.",
-      "This is as much a question of environmental justice as it is of public health."
-    ]);
-    if (extra) sit.push(extra);
+    // Longer letters add an environmental-justice / personal-stakes line and a closer;
+    // brief letters stop after the symptoms.
+    if (!brief) {
+      var extra = pick([
+        "", "",
+        "Many of us cannot simply pack up and leave, and we should not have to wonder whether it is safe to open a window.",
+        "Neighborhoods like ours, which already carry more than our share of industrial pollution, are once again paying the price.",
+        "This is as much a question of environmental justice as it is of public health."
+      ]);
+      if (extra) sit.push(extra);
 
-    sit.push(pick([
-      "That is not acceptable, and it cannot continue without a far more transparent response from the leaders we elected.",
-      "This is unacceptable, and it demands a far more open and honest response from the officials we elected.",
-      "People deserve better than silence, and they deserve a far more transparent response from their elected leaders.",
-      "That is not good enough, and it will not improve without real transparency from the leaders we elected.",
-      "Our community deserves far better than guesswork and silence from the people elected to protect it."
-    ]));
+      sit.push(pick([
+        "That is not acceptable, and it cannot continue without a far more transparent response from the leaders we elected.",
+        "This is unacceptable, and it demands a far more open and honest response from the officials we elected.",
+        "People deserve better than silence, and they deserve a far more transparent response from their elected leaders.",
+        "That is not good enough, and it will not improve without real transparency from the leaders we elected.",
+        "Our community deserves far better than guesswork and silence from the people elected to protect it."
+      ]));
+    }
     var situation = sit.join(" ");
 
     var askIntro = pick([
@@ -599,7 +613,7 @@
 
     var demands = shuffle([
       pick([
-        "Provide transparent, timely, plain-language updates on real-time air-quality conditions in the affected neighborhoods — including which pollutants are being released and what their known health effects are.",
+        "Provide transparent, timely, plain-language updates on real-time air-quality conditions in the affected neighborhoods, including which pollutants are being released and what their known health effects are.",
         "Communicate clearly and promptly about real-time air quality in the affected areas, in plain language, including the specific pollutants in the smoke and the health risks they carry.",
         "Give residents honest, up-to-date, plain-language information about the air they are breathing right now, including what is in the smoke and how it can affect their health."
       ]),
@@ -609,13 +623,13 @@
         "Release the air-quality monitoring data from around the fire to the public, and say plainly who is measuring it, where, and how frequently."
       ]),
       pick([
-        "Issue clear, accessible health guidance for residents — especially vulnerable people such as children, the elderly, pregnant residents, and those with asthma or other respiratory conditions — and ensure that N95 masks and air purifiers actually reach the people who need them.",
-        "Provide clear, accessible health guidance for the public — particularly children, older adults, pregnant residents, and people with asthma or other respiratory conditions — and make sure N95 masks and air purifiers actually reach those who need them.",
-        "Get clear health guidance and real protection — N95 masks and air purifiers — to the residents who need them most, especially children, seniors, pregnant people, and those with respiratory conditions."
+        "Issue clear, accessible health guidance for residents, especially vulnerable people such as children, the elderly, pregnant residents, and those with asthma or other respiratory conditions, and ensure that N95 masks and air purifiers actually reach the people who need them.",
+        "Provide clear, accessible health guidance for the public, particularly children, older adults, pregnant residents, and people with asthma or other respiratory conditions, and make sure N95 masks and air purifiers actually reach those who need them.",
+        "Get clear health guidance and real protection, including N95 masks and air purifiers, to the residents who need them most, especially children, seniors, pregnant people, and those with respiratory conditions."
       ]),
       pick([
         "Commit to a full public accounting of how this facility was permitted, inspected, and stocked with hazardous and combustible materials, and what concrete steps the City will take so that a disaster like this does not happen again.",
-        "Commit to a complete public accounting of how this facility was permitted, inspected, and allowed to store hazardous, combustible materials — and what concrete steps the City will take to prevent a disaster like this from recurring.",
+        "Commit to a complete public accounting of how this facility was permitted, inspected, and allowed to store hazardous, combustible materials, and what concrete steps the City will take to prevent a disaster like this from recurring.",
         "Tell the public exactly how this facility came to store so much hazardous, flammable material, how it was permitted and inspected, and what will change so this never happens again."
       ])
     ]);
@@ -624,19 +638,25 @@
       demandText += (i + 1) + ". " + demands[i] + "\n\n";
     }
 
-    var closing = pick([
+    var closing = brief ? pick([
+      "Tell us the truth about the air we are breathing, and act on it. I will be paying attention.",
+      "We deserve straight answers and real action, not silence. I am watching how you respond.",
+      "Please give this the urgency it demands, and let us know what you are doing about it.",
+      "Our health is on the line. I expect a real response, and soon.",
+      "Do not let this go quiet. I look forward to hearing what your office will do."
+    ]) : (pick([
       "The people of this city deserve to know whether the air they are breathing is safe. Vague reassurances are not a substitute for facts, and silence is not leadership. I expect transparent communication and decisive action from your office, and I will be following your response closely.",
       "Residents deserve to know whether the air around them is safe to breathe. Reassurances without data are not enough, and silence is not an option. I expect openness and decisive action from your office, and I will be paying close attention to how you respond.",
       "Our neighbors deserve honest answers about whether the air is safe. Facts must replace vague reassurances, and leadership must replace silence. I will be watching closely for transparent communication and real action from your office.",
       "We have a right to know whether the air in our homes and on our streets is safe. Data must replace spin, and action must replace silence. I will be watching how your office responds.",
-      "Whether the air around us is safe to breathe should not be a mystery. I expect facts, not reassurances, and action, not delay — and I will be following what your office does next."
+      "Whether the air around us is safe to breathe should not be a mystery. I expect facts, not reassurances, and action, not delay, and I will be following what your office does next."
     ]) + " " + pick([
       "Thank you for your prompt attention to this urgent matter. I look forward to your reply.",
       "I appreciate your prompt attention to this urgent matter and look forward to hearing from you.",
       "Please give this the urgent attention it requires. I look forward to your response.",
       "Thank you for treating this with the urgency it deserves. I look forward to your response.",
       "I would appreciate a prompt reply describing the concrete steps your office is taking."
-    ]);
+    ]));
 
     var signoff = pick([
       "Respectfully,", "Sincerely,", "Respectfully yours,",
